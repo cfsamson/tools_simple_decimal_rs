@@ -22,9 +22,7 @@ impl FromText for Decimal {
     let text: &str = text.trim();
 
     // if the number contains whitespace then remove it
-    let text: Vec<&str> = text.split_whitespace().collect();
-    let text = text.concat();
-
+    let text: String = text.split_whitespace().collect::<Vec<&str>>().concat();
 
     match f64::from_str(&text) {
       Ok(n) => Some(Decimal(n,'.')),
