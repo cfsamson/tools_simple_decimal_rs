@@ -22,7 +22,12 @@ Example:
   println!("{}", decimal); // 789 123,22
 ```
 
-It uses "," as decimal seperator as we usually do in Norway.
+It uses "." as a default seperator. To set a custom one, do this:
+
+```rust
+let mut decimal = Decimal::from_text("18292.50").unwrap();
+decimal.set_decimal_sign(',');
+```
 
 NB! the rounding for display is not accurate. As you see from the example above the "matissa" (or fractional) is .2245 - the expected way to round this would be .23, but we only round the last digit "4" down as displayed here.
 
