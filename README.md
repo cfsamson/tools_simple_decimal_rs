@@ -27,7 +27,6 @@ It uses "," as decimal seperator as we usually do in Norway.
 NB! the rounding for display is not accurate. As you see from the example above the "matissa" (or fractional) is .2245 - the expected way to round this would be .23, but we only round the last digit "4" down as displayed here.
 
 ## Todo
-* Make decimal seperator and 1000 seperator configurable
-* Make this a library
-* Round with better precision
-* Change from f64 to BigDecimal for better calculations
+- [x] Make decimal seperator and 1000 seperator configurable
+- [ ] Round with better precision
+- [ ] Change from f64 to BigDecimal for better calculations
