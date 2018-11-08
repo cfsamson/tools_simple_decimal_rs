@@ -1,12 +1,11 @@
 # Parsing and displaying decimals
 
 ## Parsing and displaying
-This crate parses strings to decimals, and is flexible regarding \
+This crate parses strings litterals to decimals, and is flexible regarding \
 the input string. 
 
 >Primary use should be quick parsing of text for display/presentation where absolute correctness of the rounding operation is not needed, i.e. scraping information from the web, or presenting larger numbers. 
 
-Right now this is a binary crate so it serves more than a code example than a library. I will convert it to a library in time.
 
 ## Usage
 The crate exposes a Decimal type that implements a trait called #from_text for. The Decimal type is a tuple type that only holds a f64 number.
@@ -28,8 +27,6 @@ It uses "." as a default seperator. To set a custom one, do this:
 let mut decimal = Decimal::from_text("18292.50").unwrap();
 decimal.set_decimal_sign(',');
 ```
-
-NB! the rounding for display is not accurate. As you see from the example above the "matissa" (or fractional) is .2245 - the expected way to round this would be .23, but we only round the last digit "4" down as displayed here.
 
 ## Todo
 - [x] Make decimal seperator and 1000 seperator configurable

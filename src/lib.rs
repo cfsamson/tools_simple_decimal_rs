@@ -38,7 +38,11 @@ impl FromText for Decimal {
 
 impl Display for Decimal {
   fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    // format f64 to a decimal string rounded to 2 decimal places
     let s: String = format!("{:.2}", self.0);
+
+    // split the string in two parts, an integer (or exponent) part
+    // and a fractional (or mantissa) part
     let s: Vec<&str> = s.split('.').collect();
     let integer = &s[0];
     let fractional = s.get(1).unwrap_or(&"00");
@@ -51,6 +55,9 @@ impl Display for Decimal {
     };
 
     // we focus on formatting the integer part
+    // here we create a char-array from the string, reverse it and maps it to an array
+    // of strings since we will be adding spaces to some char representations
+    // 1234 => 4321 => 4 321
     let integer: Vec<String> = integer.chars().rev().enumerate().map(|(i, n)|{
       if i % 3 == 0 {
         format!(" {}",n)
@@ -59,7 +66,8 @@ impl Display for Decimal {
       }
     }).collect();
 
-    // we concatenate the strings to one string, then we split them to an array of
+    // Remember, the string is now in reversed order, so we concatenate the 
+    // strings to one string, then we split them to an array of
     // chars, reverse the order and collect them back to a string again.
     let integer: String = integer.concat().chars().rev().collect();
 
