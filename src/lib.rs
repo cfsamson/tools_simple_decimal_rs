@@ -1,16 +1,13 @@
-fn main() {
-  let to_parse = "   789 1   23.2245     \n";
-
-  let decimal = Decimal::from_text(to_parse).unwrap();
-
-  println!("{}", decimal);
-
-}
-
 use std::fmt::Display;
 use std::str::FromStr;
 
-struct Decimal(f64);
+struct Decimal(f64,char);
+
+impl Decimal {
+  fn set_decimal_sign(&mut self, sign: char) {
+    self.1 = sign;
+  }
+}
 
 trait FromText {
   type Number;
@@ -30,7 +27,7 @@ impl FromText for Decimal {
 
 
     match f64::from_str(&text) {
-      Ok(n) => Some(Decimal(n)),
+      Ok(n) => Some(Decimal(n,'.')),
       Err(e) => {
         println!("{}", e);
         None
@@ -67,6 +64,31 @@ impl Display for Decimal {
     let integer: String = integer.concat().chars().rev().collect();
 
     
-    write!(f, "{},{}", integer.trim_end(), fractional)
+    write!(f, "{}{}{}", integer.trim_end(), &self.1, fractional)
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  #[test]
+  fn parses_and_displays_poorly_formatted_string() {
+    let to_parse = " 1789 1   23.2245     \n";
+
+    let decimal = Decimal::from_text(to_parse).unwrap();
+
+    let formatted = format!("{}", decimal);
+    assert_eq!("1 789 123.22".to_owned(), formatted);
+  }
+
+  #[test]
+  fn parses_and_displays_with_custom_seperator() {
+    let to_parse = " 1789 1   23.2245     \n";
+
+    let mut decimal = Decimal::from_text(to_parse).unwrap();
+    decimal.set_decimal_sign(',');
+
+    let formatted = format!("{}", decimal);
+    assert_eq!("1 789 123,22".to_owned(), formatted);
   }
 }
